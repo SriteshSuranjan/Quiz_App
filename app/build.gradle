@@ -2,11 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services' // Firebase plugin
-    id 'com.google.firebase.appdistribution' apply false  // Firebase App Distribution plugin
+    id 'com.google.firebase.appdistribution'  // Firebase App Distribution plugin
 }
-
-// Apply the Firebase App Distribution plugin this way:
-// apply plugin: 'com.google.firebase.appdistribution'
 
 android {
     compileSdk 32
