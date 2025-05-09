@@ -10,7 +10,7 @@ pipeline {
 
         stage('Inject google-services.json') {
             steps {
-                withCredentials([file(credentialsId: 'google-services-json-secret', variable: 'SERVICE_ACCOUNT')]) {
+                withCredentials([file(credentialsId: 'Quiz_App', variable: 'SERVICE_ACCOUNT')]) {
                     sh 'cp $SERVICE_ACCOUNT app/google-services.json'
                 }
             }
