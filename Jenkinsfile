@@ -1,91 +1,59 @@
 pipeline {
     agent any
 
-    environment {
-        // Update with your Android SDK path in WSL
-        ANDROID_HOME = '/home/ubuntu/Android/Sdk'
-        PATH = "${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${PATH}"
-        GRADLE_OPTS = "-Dorg.gradle.daemon=false"
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
-                git(
-                    url: 'https://github.com/SriteshSuranjan/Quiz_App.git',
-                    branch: 'main',
-                    credentialsId: 'Quiz_App' // Create this in Jenkins credentials
-                )
+                checkout scm
             }
         }
 
-        stage('Build Debug APK') {
+        stage('Inject google-services.json') {
             steps {
-                sh './gradlew assembleDebug --stacktrace'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'app/build/outputs/apk/debug/*.apk',
-                    fingerprint: true
+                withCredentials([file(credentialsId: 'google-services-json-secret', variable: 'SERVICE_ACCOUNT')]) {
+                    sh 'cp $SERVICE_ACCOUNT app/google-services.json'
                 }
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Set Gradle Executable') {
             steps {
-                sh './gradlew test'
-            }
-            post {
-                always {
-                    junit 'app/build/test-results/**/*.xml'
-                }
+                sh 'chmod +x ./gradlew'
             }
         }
 
-        stage('Code Quality Check') {
+        stage('Clean Project') {
             steps {
-                sh './gradlew lintDebug'
-            }
-            post {
-                always {
-                    androidLint pattern: 'app/build/reports/lint-results-*.xml'
-                }
+                sh './gradlew clean'
             }
         }
 
-        // Optional: Only runs when merging to main
-        stage('Deploy to Firebase') {
-            when {
-                branch 'main'
-            }
+        stage('Build APK') {
             steps {
-                script {
-                    withCredentials([file(credentialsId: 'firebase-key', variable: 'FIREBASE_CONFIG']) {
-                        sh '''
-                        cp $FIREBASE_CONFIG app/firebase-service.json
-                        ./gradlew appDistributionUploadDebug
-                        '''
-                    }
-                }
+                sh './gradlew assembleDebug' // or assembleRelease if needed
             }
         }
-    }
 
-    post {
-        always {
-            // Slack notification example (uncomment after setting up)
-            // slackSend channel: '#android-ci', message: "Build ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
-            
-            // Email notification
-            emailext (
-                subject: "Quiz App Build ${currentBuild.currentResult}",
-                body: """
-                Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}
-                Status: ${currentBuild.currentResult}
-                URL: ${env.BUILD_URL}
-                """,
-                to: 'sritesh@example.com' // Update your email
-            )
+        stage('Archive APK Artifact') {
+            steps {
+                archiveArtifacts artifacts: 'app/build/outputs/**/*.apk', fingerprint: true
+            }
         }
+
+        // Optional: Firebase App Distribution
+        // stage('Deploy to Firebase') {
+        //     steps {
+        //         withCredentials([file(credentialsId: 'firebase-service-json', variable: 'FIREBASE_KEY')]) {
+        //             sh '''
+        //                 cp $FIREBASE_KEY firebase-service.json
+        //                 firebase login:ci --token $FIREBASE_TOKEN
+        //                 firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk \
+        //                     --app <YOUR_APP_ID> \
+        //                     --token $FIREBASE_TOKEN
+        //             '''
+        //         }
+        //     }
+        // }
     }
 }
+
