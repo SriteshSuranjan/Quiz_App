@@ -5,7 +5,7 @@ plugins {
 }
 
 // Apply the Firebase App Distribution plugin this way:
-apply plugin: 'com.google.firebase.appdistribution'
+// apply plugin: 'com.google.firebase.appdistribution'
 
 android {
     compileSdk 32
