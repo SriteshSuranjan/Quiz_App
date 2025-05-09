@@ -41,19 +41,20 @@ pipeline {
         }
 
         // Optional: Firebase App Distribution
-        // stage('Deploy to Firebase') {
-        //     steps {
-        //         withCredentials([file(credentialsId: 'firebase-service-json', variable: 'FIREBASE_KEY')]) {
-        //             sh '''
-        //                 cp $FIREBASE_KEY firebase-service.json
-        //                 firebase login:ci --token $FIREBASE_TOKEN
-        //                 firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk \
-        //                     --app <YOUR_APP_ID> \
-        //                     --token $FIREBASE_TOKEN
-        //             '''
-        //         }
-        //     }
-        // }
+         stage('Deploy to Firebase') {
+             steps {
+                 withCredentials([file(credentialsId: 'firebase-service-json', variable: 'FIREBASE_KEY')]) {
+                     sh '''
+                         cp $FIREBASE_KEY firebase-service.json
+                         firebase login:ci --token $FIREBASE_TOKEN
+                         firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk \
+                             --app 1:823895722189:android:b8f7135c3959cb295f0184 \
+                             --token $FIREBASE_TOKEN
+                     '''
+                 }
+             }
+         }
     }
 }
+
 

@@ -14,6 +14,8 @@ buildscript {
 
         // Google Services plugin (Firebase)
         classpath 'com.google.gms:google-services:4.3.15'
+        
+        classpath 'com.google.firebase:firebase-appdistribution-gradle:2.2.0' // Add Firebase App Distribution plugin
 
         // Firebase App Distribution plugin
         // classpath 'com.google.firebase:firebase-appdistribution-gradle:4.0.0' // Correcting the version for Firebase App Distribution plugin

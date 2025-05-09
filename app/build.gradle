@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services' // Firebase plugin
+    id 'com.google.firebase.appdistribution' version '2.2.0' apply false  // Firebase App Distribution plugin
 }
 
 // Apply the Firebase App Distribution plugin this way:
