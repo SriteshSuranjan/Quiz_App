@@ -27,11 +27,7 @@ pipeline {
                 sh './gradlew clean'
             }
         }
-	
-	environment {
-	        ANDROID_HOME = '/home/ubuntu/Android/Sdk'
-    	}
-
+		
 	stage('Configure SDK Path') {
     	    steps {
         	dir('Quiz_App') {
