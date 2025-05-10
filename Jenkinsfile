@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    environment {
-        ANDROID_HOME = '/home/ubuntu/Android/Sdk'
-        PATH = "${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${env.PATH}"
-    }
+    //environment {
+    //    ANDROID_HOME = '/home/ubuntu/Android/Sdk'
+    //    PATH = "${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${env.PATH}"
+    //}
 
     stages {
         stage('Checkout Code') {
