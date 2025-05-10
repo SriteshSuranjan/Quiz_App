@@ -43,7 +43,7 @@ pipeline {
         // Optional: Firebase App Distribution
          stage('Deploy to Firebase') {
              steps {
-                 withCredentials([file(credentialsId: 'firebase-service-json', variable: 'FIREBASE_KEY')]) {
+                 withCredentials([file(credentialsId: 'Quiz_App', variable: 'FIREBASE_KEY')]) {
                      sh '''
                          cp $FIREBASE_KEY firebase-service.json
                          firebase login:ci --token $FIREBASE_TOKEN
