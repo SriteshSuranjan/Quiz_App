@@ -38,7 +38,7 @@ pipeline {
         	sh '''
             		echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties
         	'''
-    		}
+            }
 	}	
 
         stage('Build APK') {
