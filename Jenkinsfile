@@ -28,13 +28,20 @@ pipeline {
             }
         }
 	
+	environment {
+	        ANDROID_HOME = '/home/ubuntu/Android/Sdk'
+    	}
+
 	stage('Configure SDK Path') {
     	    steps {
-        	sh '''
-            		echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties
-        	'''
-            }
-	}	
+        	dir('Quiz_App') {
+            	    sh '''
+                       echo "sdk.dir=$ANDROID_HOME" > local.properties
+            	    '''
+        	}
+    	    }
+	}
+
 
         stage('Build APK') {
             steps {
