@@ -32,6 +32,14 @@ pipeline {
                 sh './gradlew clean'
             }
         }
+	
+	stage('Configure SDK Path') {
+    	    steps {
+        	sh '''
+            		echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties
+        	'''
+    		}
+	}	
 
         stage('Build APK') {
             steps {
