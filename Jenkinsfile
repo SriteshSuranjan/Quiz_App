@@ -31,9 +31,7 @@ pipeline {
 	stage('Configure SDK Path') {
     	    steps {
         	dir('Quiz_App') {
-            	    sh '''
-                       echo "sdk.dir=$ANDROID_HOME" > local.properties
-            	    '''
+            	    sh 'echo "echo sdk.dir=/home/ubuntu/Android/Sdk'           	    '
         	}
     	    }
 	}
