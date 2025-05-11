@@ -24,6 +24,13 @@ pipeline {
                 echo 'Created local.properties with sdk.dir'
             }
         }
+	
+	// Add Check Environment stage here
+        stage('Check Environment') {
+            steps {
+                sh 'echo $ANDROID_HOME'
+            }
+        }
 
         stage('Inject google-services.json') {
             steps {
