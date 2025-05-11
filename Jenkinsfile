@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         ANDROID_HOME = '/home/ubuntu/Android/Sdk'
-	PATH = "${env.PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools"
     }
 
     stages {
