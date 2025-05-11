@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         ANDROID_HOME = '/home/ubuntu/Android/Sdk'
-	PATH = "${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${env.PATH}"
+        PATH = "${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/tools:${env.PATH}"
     }
 
     stages {
@@ -15,20 +15,10 @@ pipeline {
 
         stage('Write local.properties') {
             steps {
-		script {
-                    // Ensure the local.properties file is created with sdk.dir pointing to the SDK location
-                    sh 'echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties'
-                    // Verify that the file is created correctly
-                    sh 'cat local.properties'
-                }
-                echo 'Created local.properties with sdk.dir'
-            }
-        }
-	
-	// Add Check Environment stage here
-        stage('Check Environment') {
-            steps {
-                sh 'echo $ANDROID_HOME'
+                sh '''
+                    echo "sdk.dir=${ANDROID_HOME}" > local.properties
+                    cat local.properties
+                '''
             }
         }
 
@@ -54,20 +44,16 @@ pipeline {
 
         stage('Build APK') {
             steps {
-                sh '''
-            	   export ANDROID_HOME=/home/ubuntu/Android/Sdk
-                   ./gradlew assembleDebug
-         	'''
+                sh './gradlew assembleDebug'
             }
         }
 
         stage('Archive APK Artifact') {
             steps {
-                archiveArtifacts artifacts: 'app/build/outputs/**/*.apk', fingerprint: true
+                archiveArtifacts artifacts: 'app/build/outputs//*.apk', fingerprint: true
             }
         }
 
-        // Optional: Firebase App Distribution
         stage('Deploy to Firebase') {
             steps {
                 withCredentials([file(credentialsId: 'Quiz_App', variable: 'FIREBASE_KEY')]) {
@@ -82,11 +68,11 @@ pipeline {
                 }
             }
         }
-	stage('Test') {
-		steps {
-		    echo 'Pipeline is working!'
-		}
-	}
+
+        stage('Test') {
+            steps {
+                echo 'Pipeline is working!'
+            }
+        }
     }
 }
-
