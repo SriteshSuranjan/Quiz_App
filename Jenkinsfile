@@ -28,13 +28,13 @@ pipeline {
             }
         }
 		
-	stage('Configure SDK Path') {
-    	    steps {
-        	dir('Quiz_App') {
-            	    sh 'echo "echo sdk.dir=/home/ubuntu/Android/Sdk'           	    '
-        	}
-    	    }
-	}
+	// stage('Configure SDK Path') {
+    	//    steps {
+        //	dir('Quiz_App') {
+        //    	    sh 'echo "echo sdk.dir=/home/ubuntu/Android/Sdk'           	    '
+        //	}
+    	//    }
+	// }
 
 
         stage('Build APK') {
