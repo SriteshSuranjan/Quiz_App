@@ -14,9 +14,13 @@ pipeline {
 
         stage('Write local.properties') {
             steps {
-		sh 'echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties'
-                sh 'cat local.properties'
-                echo 'Created local.properties'
+		script {
+                    // Ensure the local.properties file is created with sdk.dir pointing to the SDK location
+                    sh 'echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties'
+                    // Verify that the file is created correctly
+                    sh 'cat local.properties'
+                }
+                echo 'Created local.properties with sdk.dir'
             }
         }
 
