@@ -14,8 +14,9 @@ pipeline {
 
         stage('Write local.properties') {
             steps {
-		def sdkPath = '/home/ubuntu/Android/SdK'
-                writeFile file: 'local.properties', text: 'sdk.dir=${sdkPath}'
+		sh 'echo "sdk.dir=/home/ubuntu/Android/Sdk" > local.properties'
+                sh 'cat local.properties'
+                echo 'Created local.properties'
             }
         }
 
