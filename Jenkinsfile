@@ -46,7 +46,10 @@ pipeline {
 
         stage('Build APK') {
             steps {
-                sh './gradlew assembleDebug' // or assembleRelease if needed
+                sh '''
+            	   export ANDROID_HOME=/home/ubuntu/Android/Sdk
+                   ./gradlew assembleDebug
+         	'''
             }
         }
 
